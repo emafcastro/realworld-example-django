@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="article-page" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+
+        <div class="banner">
+            <div class="container">
+
+                <h1>{{ article.title }}</h1>
+
+                <div class="article-meta">
+                    {% if article.author.image %}
+                        <a href="{{ article.author.get_absolute_url }}"><img src="{{ article.author.image }}"/></a>
+                    {% endif %}
+                    <div class="info">
+                        <a href="{{ article.author.get_absolute_url }}" class="author">{{ article.author.get_full_name }}</a>
+                        <span class="date">{{ article.created|date }}</span>
+                    </div>
+                    {% if user.is_authenticated and user == article.author %}
+                    {% include "articles/_edit_btn.html" with button_id="edit-article" edit_id=article.id %}
+                    &nbsp;&nbsp;
+                    {% include "articles/_delete_btn.html" with button_id="delete-article" delete_id=article.id %}
+                    {% else %}
+                    {% include "accounts/_follow_btn.html" with button_id="follow-top" followed=article.author %}
+                    &nbsp;&nbsp;
+                    {% include "articles/_favorite_btn.html" with button_id="favorite-top" %}
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+
+        <div class="container page">
+
+            <div class="row article-content">
+                <div class="col-md-12">
+                    <p>
+                        {{ article.summary }}
+                    </p>
+                    {{ article.as_markdown|safe }}
+                </div>
+            </div>
+
+            <hr/>
+
+            <div class="article-actions">
+                <div class="article-meta">
+                    {% if article.author.image %}
+                        <a href="{{ article.author.get_absolute_url }}"><img src="{{ article.author.image }}"/></a>
+                    {% endif %}
+                    <div class="info">
+                        <a href="{{ article.author.get_absolute_url }}" class="author">{{ article.author.get_full_name }}</a>
+                        <span class="date">{{ article.created|date }}</span>
+                    </div>
+                    {% if user.is_authenticated and user == article.author %}
+                    {% include "articles/_edit_btn.html" with button_id="edit-article" edit_id=article.id%}
+                    &nbsp;&nbsp;
+                    {% include "articles/_delete_btn.html" with button_id="delete-article" delete_id=article.id %}
+                    {% else %}
+                    {% include "accounts/_follow_btn.html" with button_id="follow-bottom" followed=article.author %}
+                    &nbsp;
+                    {% include "articles/_favorite_btn.html" with button_id="favorite-bottom" %}
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-xs-12 col-md-8 offset-md-2">
+
+                    {% if comment_form %}
+                        <div id="comment-form">
+                            {% include "comments/_comment_form.html" with form=comment_form %}
+                        </div>
+                    {% endif %}
+
+                    {% for comment in comments %}
+                        <div id="comment-{{ comment.id }}">
+                            {% include "comments/_comment.html" %}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+{% endblock content %}

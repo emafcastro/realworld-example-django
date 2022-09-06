@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load widget_tweaks %}
+<div class="editor-page">
+    <div class="container page">
+        <div class="row">
+
+            <div class="col-md-10 offset-md-1 col-xs-12">
+                <form hx-target="this" hx-post="{{ request.path }}" hx-swap="innerHTML">
+                    {% if form.errors %}
+                    <ul class="error-messages">
+                        {% for error in form.errors.values %}
+                        {{ error.as_text }}
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+
+                    {% csrf_token %}
+                    <fieldset class="form-group">
+                        {% render_field form.first_name class+="form-control form-control-lg" placeholder="First Name" %}
+                    </fieldset>
+                    <fieldset class="form-group">
+                        {% render_field form.last_name class+="form-control form-control-lg" placeholder="Last Name" %}
+                    </fieldset>
+                    <fieldset class="form-group">
+                        {% render_field form.email class+="form-control form-control-lg" placeholder="Email" %}
+                    </fieldset>
+                    <fieldset class="form-group">
+                        {% render_field form.countries class+="form-control form-control-lg" style="height: 3.5rem" %}
+                    </fieldset>
+                    <fieldset class="form-group">
+                        {% render_field form.message class+="form-control" placeholder="Write your message" rows=8 %}
+                    </fieldset>
+                    <fieldset class="form-group">
+                        {% render_field form.terms %} I accept the <a href="{% url 'terms' %}" target="_blank">Terms and Conditions</a>
+                    </fieldset>
+                    <fieldset>
+                        <button class="btn btn-lg pull-xs-right btn-primary" type="submit">
+                            Submit
+                        </button>
+                    </fieldset>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock content %}
