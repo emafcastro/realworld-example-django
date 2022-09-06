@@ -24,7 +24,7 @@ SECRET_KEY = "m&r5$aqg@93t(5uu1tj(ajx)09lp*s6f$^npx%@k1ru@xgyqak"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["0.0.0.0"]
+ALLOWED_HOSTS = ["localhost"]
 
 CSRF_TRUSTED_ORIGINS = ['https://realworld-djangoapp.herokuapp.com']
 
